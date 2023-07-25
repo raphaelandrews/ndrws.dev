@@ -2,7 +2,8 @@ import * as React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useMDXComponent } from 'next-contentlayer/hooks';
-import Tweet from './tweet';
+
+import Tweet from 'components/tweet';
 
 const CustomLink = (props) => {
   const href = props.href;

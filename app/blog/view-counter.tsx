@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
-import { increment } from 'app/actions';
+
+import { increment } from '@/app/actions';
 
 export default function ViewCounter({
   slug,
@@ -25,7 +26,7 @@ export default function ViewCounter({
   }, []);
 
   return (
-    <p className="text-neutral-600 dark:text-neutral-400">
+    <p className="text-xs text-secondary ml-1">
       {`${number.toLocaleString()} views`}
     </p>
   );
