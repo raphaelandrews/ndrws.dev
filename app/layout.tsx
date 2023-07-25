@@ -1,41 +1,54 @@
-import './global.css';
 import clsx from 'clsx';
-import type { Metadata } from 'next';
-import localFont from 'next/font/local';
-import Sidebar from './components/sidebar';
+import { Inter } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
+import type { Metadata } from 'next';
 
-const graphik = localFont({
-  src: [
-    {
-      path: '../public/fonts/Graphik-Regular.ttf',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: '../public/fonts/Graphik-Medium.ttf',
-      weight: '600',
-      style: 'bold',
-    },
-  ],
-  variable: '--font-graphik',
-  display: 'swap',
+import './globals.css';
+import { siteConfig } from "@/config/site";
+import Sidebar from '@/components/sidebar';
+
+const font = Inter({
+  subsets: ['latin'],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"]
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ndrws.dev'),
   title: {
-    default: 'ndrws',
-    template: '%s | ndrws',
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
   },
-  description: 'Developer, writer, and creator.',
+  description: siteConfig.description,
+  keywords: [
+    'Developer',
+    'Fullstack',
+    'Frontend',
+    'Backend',
+  ],
+  authors: [
+    {
+      name: 'Raphael Andrews',
+      url: 'https://ndrws.dev'
+    }
+  ],
+  creator: 'Raphael Andrews',
   openGraph: {
-    title: 'ndrws',
-    description: 'Developer, writer, and creator.',
-    url: 'https://ndrws.dev',
-    siteName: 'ndrws',
-    locale: 'en-US',
     type: 'website',
+    locale: 'en-US',
+    title: siteConfig.name,
+    url: siteConfig.url,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
+    images: [
+      {
+        url: `${siteConfig.url}/opengraph-image.jpg`,
+        width: 1920,
+        height: 1080,
+      },
+    ],
+  },
+  icons: {
+    icon: "/favicon.ico",
   },
   robots: {
     index: true,
@@ -52,10 +65,6 @@ export const metadata: Metadata = {
     title: 'ndrws',
     card: 'summary_large_image',
   },
-  verification: {
-    google: 'eZSdmzAXlLkKhNJzfgwDqWORghxnJ8qR9_CHdAh5-xw',
-    yandex: '14d2e73487fa6c71',
-  },
 };
 
 export default function RootLayout({
@@ -64,19 +73,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={clsx(
-        'text-black bg-white dark:text-white dark:bg-[#111010]',
-        graphik.variable
-      )}
-    >
-      <body className="antialiased max-w-2xl mb-40 flex flex-col md:flex-row mx-4 mt-8 lg:mx-auto">
-        <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
-          <Sidebar />
+    <html lang="en">
+      <body className={font.className}>
+        <main className="min-h-screen">
           {children}
-          <Analytics />
         </main>
+        <Analytics />
       </body>
     </html>
   );

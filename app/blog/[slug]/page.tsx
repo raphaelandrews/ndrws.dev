@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Mdx } from 'app/components/mdx';
-import { allBlogs } from 'contentlayer/generated';
-import { getTweets } from 'lib/twitter';
 import Balancer from 'react-wrap-balancer';
-import ViewCounter from '../view-counter';
-import { getViewsCount } from 'lib/metrics';
+
+import { allBlogs } from 'contentlayer/generated';
+
+import ViewCounter from '@/app/blog/view-counter';
+import { getTweets } from '@/lib/twitter';
+import { getViewsCount } from '@/lib/metrics';
+import { Mdx } from '@/components/mdx';
 
 export async function generateMetadata({
   params,
@@ -17,6 +19,7 @@ export async function generateMetadata({
 
   const {
     title,
+    previewTitle,
     publishedAt: publishedTime,
     summary: description,
     image,
