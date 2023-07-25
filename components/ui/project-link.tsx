@@ -16,7 +16,7 @@ const ProjectLink = ({ link, label }: ProjectLinkProps) => {
                 gap-1 
                 text-sm 
                 font-medium
-                my-1 
+                py-1 
                 hover:underline 
                 hover:cursor-pointer
             "
