@@ -12,7 +12,7 @@ import SocialLink from "@/components/ui/social-link";
 import { getViewsCount } from '@/lib/metrics';
 import { projectsLinks, socialLinks } from "@/data";
 
-export default async function Home() {
+export default async function Page() {
   const allViews = await getViewsCount();
 
   return (
