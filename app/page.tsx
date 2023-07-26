@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { FolderIcon, Newspaper, Scroll } from "lucide-react";
+import { FolderIcon, Layers, Newspaper, Scroll } from "lucide-react";
 
 import { allBlogs } from 'contentlayer/generated';
 
@@ -10,7 +10,7 @@ import Subtitle from "@/components/ui/subtitle";
 import ProjectLink from "@/components/ui/project-link";
 import SocialLink from "@/components/ui/social-link";
 import { getViewsCount } from '@/lib/metrics';
-import { projectsLinks, socialLinks } from "@/data";
+import { projectsLinks, socialLinks, clonesLinks } from "@/data";
 
 export default async function Home() {
   const allViews = await getViewsCount();
@@ -51,7 +51,7 @@ export default async function Home() {
                     gap-1 
                     text-sm 
                     font-medium
-                    my-1 
+                    py-1 
                 "
               >
                 <div
@@ -86,6 +86,20 @@ export default async function Home() {
                 key={project.label}
                 link={project.link}
                 label={project.label}
+              />
+            ))}
+          </section>
+          <section>
+            <Subtitle
+              label="Clones"
+              icon={<Layers width={16} height={16} />}
+            />
+            {clonesLinks.map((link) => (
+              <SocialLink
+                key={link.label}
+                link={link.link}
+                label={link.label}
+                icon={link.icon}
               />
             ))}
           </section>

@@ -18,7 +18,7 @@ const PostLink = ({ link, label, date }: PostLinkProps) => {
                 gap-1 
                 text-sm 
                 font-medium
-                my-1 
+                py-1 
             "
         >
             <div

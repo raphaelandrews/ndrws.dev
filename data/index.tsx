@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail } from "lucide-react"
+import { Bird, BoomBox, Github, Linkedin, Mail, MapPin } from "lucide-react"
 
 export const projectsLinks = [
     {
@@ -17,16 +17,19 @@ export const projectsLinks = [
 
 export const clonesLinks = [
     {
-        href: "https://rentbnb-next.vercel.app",
+        link: "https://rentbnb-next.vercel.app",
         label: "Airbnb",
+        icon: <MapPin width={14} height={14} className="min-w-[14px]" />,
     },
     {
-        href: "https://spotify-next-raphaelandrews.vercel.app",
+        link: "https://spotify-next-raphaelandrews.vercel.app",
         label: "Spotify",
+        icon: <BoomBox width={14} height={14} className="min-w-[14px]" />,
     },
     {
-        href: "https://twitter-next-raphaelandrews.vercel.app",
+        link: "https://twitter-next-raphaelandrews.vercel.app",
         label: "Twitter",
+        icon: <Bird width={14} height={14} className="min-w-[14px]" />,
     }
 ]
 

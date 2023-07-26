@@ -17,7 +17,7 @@ const SocialLink = ({ link, label, icon }: SocialLinkProps) => {
                 gap-1 
                 text-sm 
                 font-medium
-                my-1 
+                py-1 
                 hover:underline 
                 hover:cursor-pointer
             "
