@@ -1,13 +1,12 @@
-type SubtitleProps = {
+interface SubtitleProps {
     label: string;
-    icon: React.ReactNode;
 }
 
-const Subtitle = ({ label, icon }: SubtitleProps) => {
+const Subtitle = ({ label }: SubtitleProps) => {
     return (
-        <h2 className="flex gap-2 items-center font-semibold mb-2">
-            {icon} {label}
-        </h2 >
+        <h2 className="text-xs text-muted-foreground font-medium mb-2">
+            {label}
+        </h2>
     );
 }
 

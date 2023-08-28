@@ -15,16 +15,7 @@ export default async function BlogPage() {
 	const allViews = await getViewsCount();
 
 	return (
-		<div
-			className="
-        w-11/12
-        max-w-[800px]
-        pt-36 
-        md:pt-56
-        mx-auto 
-        my-0
-      "
-		>
+		<div className="max-w-2xl m-auto">
 			<section>
 				<h1 className="font-bold text-2xl mb-8 tracking-tighter">read my blog</h1>
 				{allBlogs

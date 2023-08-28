@@ -1,9 +1,306 @@
 ---
 title: 'Tables with Nextjs'
 previewTitle: 'Tables x with x Nextjs.mdx'
-publishedAt: '2023-07-25'
+publishedAt: '2023-07-26'
 summary: 'How to easily create tables with Nextjs'
 ---
 
-## That's how you do it!
+In this post I'll show you how to make a table in a easy way with Nextjs and [shadcn/ui](https://ui.shadcn.com).
 
+So, I'll use the [Data Table](https://ui.shadcn.com/docs/components/data-table) component.
+
+To start the project use the following line. You can also find this and a lot of things I will use in this tutorial acessing the shadcn/ui docs.
+
+```
+npx create-next-app@latest my-app --typescript --tailwind --eslint
+```
+
+You can choose the default answers to the questions that will appear and run the init command:
+
+```
+npx shadcn-ui@latest init
+```
+
+Again you can choose the default:
+
+```
+Would you like to use TypeScript (recommended)? no / yes
+Which style would you like to use? › Default
+Which color would you like to use as base color? › Slate
+Where is your global CSS file? › › app/globals.css
+Do you want to use CSS variables for colors? › no / yes
+Where is your tailwind.config.js located? › tailwind.config.js
+Configure the import alias for components: › @/components
+Configure the import alias for utils: › @/lib/utils
+Are you using React Server Components? › no / yes
+```
+
+The project setup is done! Let's go to the Data Table component:
+
+```
+npx shadcn-ui@latest add table
+```
+
+```
+npm install @tanstack/react-table
+```
+
+Create this folder and files on components folder:
+
+```
+components
+└── poke-table
+    ├── columns.tsx
+    └── data-table.tsx
+```
+
+Before the columns setup, let's install the Avatar component:
+
+```
+npx shadcn-ui@latest add avatar
+```
+
+Two more steps, the data for populate the table and the Interfaces. Create the data folder with the pokemons.ts and copy and paste the data from [this repository](https://github.com/raphaelandrews/table-crud-nextjs/blob/main/data/pokemons.ts).
+
+```
+data
+└── pokemons.ts
+```
+
+After, create the types folder with index.ts file.
+
+```
+types
+└── index.ts
+```
+
+```
+export interface PokemonName {
+    english: string;
+    japanese: string;
+    chinese: string;
+    french: string;
+}
+
+export interface PokemonBaseStats {
+    HP: number;
+    Attack: number;
+    Defense: number;
+    "Sp. Attack": number;
+    "Sp. Defense": number;
+    Speed: number;
+}
+
+export interface PokemonProfile {
+    height: string;
+    weight: string;
+    egg: string[];
+    ability: string[] | string[][];
+    gender: string;
+}
+
+interface PokemonEvolution {
+    prev?: string[];
+    next?: string[] | string[][];
+}
+
+export interface PokemonImage {
+    sprite: string;
+    thumbnail: string;
+}
+
+export interface Pokemon {
+    id: number;
+    name: PokemonName;
+    type: string[];
+    base: PokemonBaseStats;
+    species: string;
+    description: string;
+    evolution: PokemonEvolution;
+    profile: PokemonProfile;
+    image: PokemonImage;
+}
+```
+
+Now we can define the columns - components/poke-table/columns.tsx 
+
+```
+"use client"
+
+import { ColumnDef } from "@tanstack/react-table";
+import { Pokemon } from "@/types";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+export const columns: ColumnDef<Pokemon>[] = [
+  {
+    accessorKey: "name.english",
+    header: "Name",
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center gap-3">
+          <Avatar className="w-7 h-7 rounded-none">
+            <AvatarImage
+              src={row?.original?.image.thumbnail}
+              alt={row?.original?.name.english}
+              title={row?.original?.name.english}
+              className="w-7 h-7"
+            />
+            <AvatarFallback>P</AvatarFallback>
+          </Avatar>
+          <p>{row?.original?.name.english}</p>
+        </div>
+      )
+    }
+  },
+  {
+    accessorKey: "type",
+    header: "Type",
+    cell: ({ row }) => {
+      const { type } = row.original;
+      return (
+        <div className="flex gap-1">
+          {type.map((typeName) => (
+            <Avatar key={typeName} className="w-5 h-5">
+              <AvatarImage
+                src={`https://raw.githubusercontent.com/raphaelandrews/table-crud-nextjs/f47d73995f8fcc6a44f2848caeace9725454937b/public/images/pokemons-types-icons/${typeName.toLowerCase()}.svg`}
+                alt={typeName}
+                title={typeName}
+              />
+              <AvatarFallback>T</AvatarFallback>
+            </Avatar>
+          ))}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "profile.height",
+    header: "Height",
+  },
+  {
+    accessorKey: "profile.weight",
+    header: "Weight",
+  },
+  {
+    accessorKey: "id",
+    header: "ID",
+  },
+]
+```
+
+Create the DataTable component - components/poke-table/data-table.tsx
+
+```
+"use client"
+
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table"
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[]
+  data: TData[]
+}
+
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) {
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  })
+
+  return (
+    <div className="mt-8 rounded-md border">
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                )
+              })}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
+  )
+}
+```
+
+Let's clean the page.tsx inside the app folder and import the DataTable component - app/page.tsx
+
+```
+import { columns } from "@/components/poke-table/columns";
+import { DataTable } from "@/components/poke-table/data-table";
+import { pokemons } from "@/data/pokemons";
+
+export default function Home() {
+  return (
+    <main className="container min-h-screen mx-auto py-10">
+      <h1
+        className="
+          text-2xl 
+          md:text-3xl 
+          font-bold 
+          text-center 
+          mt-8 
+          leading-tight 
+          lg:leading-[1.1] 
+          tracking-tighter
+          "
+      >
+        Pokétable
+      </h1>
+      <DataTable columns={columns} data={pokemons} />
+    </main>
+  )
+}
+```
+
+Done!

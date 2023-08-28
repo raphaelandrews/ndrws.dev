@@ -1,4 +1,4 @@
-import { Globe } from "lucide-react";
+import { ExternalLink, Globe } from "lucide-react";
 
 type ProjectLinkProps = {
     link: string;
@@ -12,19 +12,30 @@ const ProjectLink = ({ link, label }: ProjectLinkProps) => {
             target="_blank"
             className="
                 flex 
+                md:justify-between
                 items-center
-                gap-1 
                 text-sm 
                 font-medium
-                py-1 
-                hover:underline 
-                hover:cursor-pointer
+                py-1
+                px-1.5
+                rounded-md
+                hover:bg-accent 
+                transition
             "
         >
-            <Globe width={14} height={14} className="min-w-[14px]" />
-            <span className="line-clamp-1 webkit-line-clamp-1">
-                {label}
-            </span>
+            <div
+                className="
+                    flex 
+                    items-center 
+                    gap-1.5
+                "
+            >
+                <Globe width={14} height={14} className="min-w-[14px]" />
+                <span className="line-clamp-1 webkit-line-clamp-1">
+                    {label}
+                </span>
+            </div>
+            <ExternalLink width={14} height={14} />
         </a>
     );
 }

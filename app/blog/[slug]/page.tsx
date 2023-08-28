@@ -96,31 +96,22 @@ export default async function Blog({ params }) {
 	]);
 
 	return (
-		<div
-			className="
-        w-11/12
-        max-w-[800px]
-        pt-36 
-        md:pt-56
-        mx-auto 
-        my-0
-      "
-      >
-        <section>
-          <script type="application/ld+json" suppressHydrationWarning>
-            {JSON.stringify(post.structuredData)}
-          </script>
-          <h1 className="font-bold text-2xl tracking-tighter max-w-[650px]">
-            <Balancer>{post.title}</Balancer>
-          </h1>
-          <div className="flex justify-between items-center mt-2 mb-8 text-sm max-w-[650px]">
-            <p className="text-sm text-secondary">
-              {formatDate(post.publishedAt)}
-            </p>
-            <ViewCounter allViews={allViews} slug={post.slug} trackView />
-          </div>
-          <Mdx code={post.body.code} tweets={tweets} />
-        </section>
+		<div className="max-w-2xl m-auto">
+			<section>
+				<script type="application/ld+json" suppressHydrationWarning>
+					{JSON.stringify(post.structuredData)}
+				</script>
+				<h1 className="font-bold text-2xl tracking-tighter max-w-[650px]">
+					<Balancer>{post.title}</Balancer>
+				</h1>
+				<div className="flex justify-between items-center mt-2 mb-8 text-sm">
+					<p className="text-sm text-muted-foreground">
+						{formatDate(post.publishedAt)}
+					</p>
+					<ViewCounter allViews={allViews} slug={post.slug} trackView />
+				</div>
+				<Mdx code={post.body.code} tweets={tweets} />
+			</section>
 		</div>
 	);
 }
