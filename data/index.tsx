@@ -15,24 +15,6 @@ export const projectsLinks = [
     },
 ]
 
-export const clonesLinks = [
-    {
-        link: "https://rentbnb-next.vercel.app",
-        label: "Airbnb",
-        icon: <MapPin width={14} height={14} className="min-w-[14px]" />,
-    },
-    {
-        link: "https://spotify-next-raphaelandrews.vercel.app",
-        label: "Spotify",
-        icon: <BoomBox width={14} height={14} className="min-w-[14px]" />,
-    },
-    {
-        link: "https://twitter-next-raphaelandrews.vercel.app",
-        label: "Twitter",
-        icon: <Bird width={14} height={14} className="min-w-[14px]" />,
-    }
-]
-
 export const socialLinks = [
     {
         link: "mailto:ndrws.dev@gmail.com",

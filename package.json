@@ -10,6 +10,7 @@
   "dependencies": {
     "@planetscale/database": "^1.7.0",
     "@radix-ui/react-separator": "^1.0.3",
+    "@radix-ui/react-slot": "^1.0.2",
     "@vercel/analytics": "^1.0.1",
     "@vercel/edge-config": "^0.2.1",
     "@vercel/og": "^0.5.8",
@@ -26,6 +27,7 @@
     "next": "13.4.8-canary.5",
     "next-auth": "0.0.0-manual.83c4ebd1",
     "next-contentlayer": "^0.3.3",
+    "next-themes": "^0.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-wrap-balancer": "^1.0.0",

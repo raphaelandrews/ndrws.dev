@@ -4,8 +4,9 @@ import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
 
 import './globals.css';
+import { cn } from '@/lib/utils';
 import { siteConfig } from "@/config/site";
-import Sidebar from '@/components/sidebar';
+import { ThemeProvider } from "@/components/theme-provider"
 
 const font = Inter({
   subsets: ['latin'],
@@ -74,11 +75,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={font.className}>
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Analytics />
+      <body className={cn("max-w-2xl m-auto", font.className)}>
+        <ThemeProvider attribute="class">
+          <main className="p-6 pt-3 md:pt-6 min-h-screen">
+            {children}
+          </main>
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   );
