@@ -26,7 +26,7 @@ export default function ViewCounter({
   }, []);
 
   return (
-    <p className="text-xs text-secondary ml-1">
+    <p className="text-xs text-muted-foreground ml-1">
       {`${number.toLocaleString()} views`}
     </p>
   );

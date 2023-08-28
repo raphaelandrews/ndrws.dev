@@ -1,4 +1,4 @@
-import { Bird, BoomBox, Github, Linkedin, Mail, MapPin } from "lucide-react"
+import { Github, Linkedin, Mail, Twitter } from "lucide-react";
 
 export const projectsLinks = [
     {
@@ -16,6 +16,11 @@ export const projectsLinks = [
 ]
 
 export const socialLinks = [
+    {
+        link: "https://twitter.com/_ndrws",
+        label: "Twitter",
+        icon: <Twitter width={14} height={14} className="min-w-[14px]" />,
+    },
     {
         link: "mailto:ndrws.dev@gmail.com",
         label: "Gmail",

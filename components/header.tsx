@@ -35,14 +35,6 @@ const Header = () => {
                     <Github width={16} height={16} />
 
                 </a>
-                <a
-                    href="https://www.linkedin.com/in/raphael-andrews"
-                    target="_blank"
-                    className="inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9 rounded-md"
-                >
-                    <Linkedin width={16} height={16} />
-
-                </a>
                 <ThemeToggle />
             </nav>
         </header>

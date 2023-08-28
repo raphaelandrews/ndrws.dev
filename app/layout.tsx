@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { Inter } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
@@ -7,6 +6,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { siteConfig } from "@/config/site";
 import { ThemeProvider } from "@/components/theme-provider"
+import Header from '@/components/header';
 
 const font = Inter({
   subsets: ['latin'],
@@ -78,6 +78,7 @@ export default function RootLayout({
       <body className={cn("max-w-2xl m-auto", font.className)}>
         <ThemeProvider attribute="class">
           <main className="p-6 pt-3 md:pt-6 min-h-screen">
+            <Header />
             {children}
           </main>
           <Analytics />
