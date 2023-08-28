@@ -32,6 +32,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".contentlayer/generated"
-, "tailwind.config.ts"  ],
+, "tailwind.config.ts", "lib/spotify.ts"  ],
   "exclude": ["node_modules"]
 }

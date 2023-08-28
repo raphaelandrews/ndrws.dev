@@ -1,40 +1,46 @@
 import Link from "next/link";
 import { Scroll } from "lucide-react";
+import ViewCounter from "@/app/blog/view-counter";
 
 type PostLinkProps = {
-    link: string;
-    label: string;
-    date: string;
+    slug: string;
+    previewTitle: string;
+    allViews: {
+        slug: string;
+        count: number;
+    }[]
 }
 
-const PostLink = ({ link, label, date }: PostLinkProps) => {
+const PostLink = ({ slug, previewTitle, allViews }: PostLinkProps) => {
     return (
         <Link
-            href={link}
+            key={slug}
+            href={`/blog/${slug}`}
             className="
                 flex 
-                md:justify-between
+                justify-between
                 items-center
-                gap-1 
+                gap-1
                 text-sm 
                 font-medium
-                py-1 
+                py-1
+                px-1.5
+                rounded-md
+                hover:bg-accent 
+                transition
             "
         >
-            <div
-                className="
-                    flex 
-                    items-center 
-                    hover:underline 
-                    hover:cursor-pointer
-                "
-            >
+            <div className="flex items-center gap-1.5">
                 <Scroll width={14} height={14} className="min-w-[14px]" />
-                <span className="ml-1 line-clamp-1 webkit-line-clamp-1">
-                    {label}
-                </span>
+                <p className="line-clamp-1 webkit-line-clamp-1">
+                    {previewTitle}
+                </p>
             </div>
-            <span className="text-xs text-secondary ml-1">{date}</span>
+            <ViewCounter
+                allViews={allViews}
+                slug={slug}
+                trackView={false}
+            />
         </Link>
     );
 }
