@@ -1,15 +1,14 @@
-import Link from 'next/link';
-import { Scroll } from "lucide-react";
-
 import { allBlogs } from 'contentlayer/generated';
-
-import ViewCounter from '@/app/blog/view-counter';
-import Subtitle from "@/components/ui/subtitle";
-import ProjectLink from "@/components/ui/project-link";
-import SocialLink from "@/components/ui/social-link";
 
 import { getViewsCount } from '@/lib/metrics';
 import { projectsLinks, socialLinks } from "@/data";
+
+import Subtitle from "@/components/ui/subtitle";
+import ProjectLink from "@/components/ui/project-link";
+import SocialLink from "@/components/ui/social-link";
+import PostLink from '@/components/ui/post-link';
+import TopTracks from '@/components/top-tracks';
+import NowPlaying from '@/components/now-playing';
 
 export default async function Home() {
   const allViews = await getViewsCount();
@@ -27,40 +26,12 @@ export default async function Home() {
               return 1;
             })
             .map((post) => (
-              <Link
+              <PostLink
                 key={post.slug}
-                href={`/blog/${post.slug}`}
-                className="
-                    flex 
-                    md:justify-between
-                    items-center
-                    gap-1
-                    text-sm 
-                    font-medium
-                    py-1
-                    px-1.5
-                    rounded-md
-                    hover:bg-accent 
-                    transition
-                  "
-              >
-                <div
-                  className="
-                      flex 
-                      items-center 
-                  "
-                >
-                  <Scroll width={14} height={14} className="min-w-[14px]" />
-                  <p className="ml-1.5 line-clamp-1 webkit-line-clamp-1">
-                    {post.previewTitle}
-                  </p>
-                </div>
-                <ViewCounter
-                  allViews={allViews}
-                  slug={post.slug}
-                  trackView={false}
-                />
-              </Link>
+                slug={post.slug}
+                previewTitle={post.previewTitle}
+                allViews={allViews}
+              />
             ))}
         </div>
       </section>
@@ -74,6 +45,13 @@ export default async function Home() {
               label={project.label}
             />
           ))}
+        </div>
+      </section>
+      <section className='my-10'>
+        <Subtitle label="Music" />
+        <div className='mt-2 space-y-1'>
+          <NowPlaying />
+          <TopTracks />
         </div>
       </section>
       <section className='my-10'>

@@ -13,7 +13,7 @@ const SocialLink = ({ link, label, icon }: SocialLinkProps) => {
             target="_blank"
             className="
                 flex 
-                md:justify-between
+                justify-between
                 items-center
                 text-sm 
                 font-medium
@@ -24,13 +24,7 @@ const SocialLink = ({ link, label, icon }: SocialLinkProps) => {
                 transition
             "
         >
-            <div
-                className="
-                    flex 
-                    items-center 
-                    gap-1.5
-                "
-            >
+            <div className=" flex items-center gap-1.5">
                 {icon}
                 <span className="line-clamp-1 webkit-line-clamp-1">
                     {label}

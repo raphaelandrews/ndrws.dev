@@ -12,7 +12,7 @@ const ProjectLink = ({ link, label }: ProjectLinkProps) => {
             target="_blank"
             className="
                 flex 
-                md:justify-between
+                justify-between
                 items-center
                 text-sm 
                 font-medium
@@ -23,13 +23,7 @@ const ProjectLink = ({ link, label }: ProjectLinkProps) => {
                 transition
             "
         >
-            <div
-                className="
-                    flex 
-                    items-center 
-                    gap-1.5
-                "
-            >
+            <div className=" flex items-center gap-1.5">
                 <Globe width={14} height={14} className="min-w-[14px]" />
                 <span className="line-clamp-1 webkit-line-clamp-1">
                     {label}
