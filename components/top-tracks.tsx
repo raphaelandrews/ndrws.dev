@@ -15,14 +15,16 @@ export default function Tracks() {
   }
 
   return (
-    <div>
+    <>
       <div className="flex items-center gap-1.5 text-sm font-medium mb-2">
         <Music4 width={14} height={14} />
         <span>Top Songs</span>
       </div>
-      {data.tracks.map((track, index) => (
-        <Track ranking={index + 1} key={track.songUrl} {...track} />
-      ))}
-    </div>
+      <div className='space-y-1'>
+        {data.tracks.map((track, index) => (
+          <Track ranking={index + 1} key={track.songUrl} {...track} />
+        ))}
+      </div>
+    </>
   );
 }
