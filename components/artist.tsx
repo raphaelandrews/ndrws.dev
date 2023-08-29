@@ -1,7 +1,7 @@
-export default function Track(track) {
+export default function Artist(artist) {
   return (
     <a
-      href={track.songUrl}
+      href={artist.artistUrl}
       target="_blank"
       rel="noopener noreferrer"
       className="
@@ -18,10 +18,7 @@ export default function Track(track) {
       "
     >
       <p>
-        {track.title}
-      </p>
-      <p className="text-xs text-gray-500">
-        {track.artist}
+        {artist.name}
       </p>
     </a>
   );

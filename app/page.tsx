@@ -8,6 +8,7 @@ import ProjectLink from "@/components/ui/project-link";
 import SocialLink from "@/components/ui/social-link";
 import PostLink from '@/components/ui/post-link';
 import TopTracks from '@/components/top-tracks';
+import TopArtists from '@/components/top-artists';
 import NowPlaying from '@/components/now-playing';
 
 export default async function Home() {
@@ -17,7 +18,7 @@ export default async function Home() {
     <>
       <section className='my-10'>
         <Subtitle label="Posts" />
-        <div className='mt-2 space-y-1'>
+        <div className='space-y-1'>
           {allBlogs
             .sort((a, b) => {
               if (new Date(a.publishedAt) > new Date(b.publishedAt)) {
@@ -37,7 +38,7 @@ export default async function Home() {
       </section>
       <section className='my-10'>
         <Subtitle label="Projects" />
-        <div className='mt-2 space-y-1'>
+        <div className='space-y-1'>
           {projectsLinks.map((project) => (
             <ProjectLink
               key={project.label}
@@ -49,14 +50,13 @@ export default async function Home() {
       </section>
       <section className='my-10'>
         <Subtitle label="Music" />
-        <div className='mt-2 space-y-1'>
-          <NowPlaying />
-          <TopTracks />
-        </div>
+        <NowPlaying />
+        <TopTracks />
+        <TopArtists />
       </section>
       <section className='my-10'>
         <Subtitle label="Social" />
-        <div className='mt-2 space-y-1'>
+        <div className='space-y-1'>
           {socialLinks.map((link) => (
             <SocialLink
               key={link.label}
