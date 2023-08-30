@@ -23,8 +23,8 @@ export default async function Home() {
         <Subtitle label="Intro" />
         <p className='text-sm font-medium'>
           <Balancer>
-            Hey, I'm Andrews, a Fullstack Web Developer specialized in Frontend
-            based in Brazil. You can contact me on any {" "}
+            👋 Hey, I'm Andrews, a Fullstack Web Developer specialized in
+            Frontend based in Brazil. You can contact me on any {" "}
             <a href="#social" className='text-gray-400'>social media</a> or by
             {" "}
             <span className='hover:cursor-pointer'>
