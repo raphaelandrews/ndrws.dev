@@ -55,7 +55,41 @@ function Ping({ color }: { color: string }) {
 }
 
 export default function NowPlaying() {
-  const { data } = useSWR<NowPlayingSong>('/api/now-playing', fetcher);
+  return (
+    <div className="flex items-center pt-4 pb-5 space-x-2">
+      <span className="relative flex h-2 w-2">
+        <span
+          className="
+            animate-ping 
+            absolute 
+            inline-flex 
+            h-full 
+            w-full 
+            rounded-full 
+            bg-red-400 
+            opacity-75
+          "
+        >
+        </span>
+        <span
+          className="relative inline-flex rounded-full h-2 w-2 bg-red-500">
+        </span>
+      </span>
+      <div className="inline-flex items-center">
+        <p className="text-sm font-medium">
+          Not playing
+        </p>
+        <span className="text-xs text-gray-500 font-medium mx-2">
+          {' – '}
+        </span>
+        <p className="text-xs text-gray-500 font-medium mt-[2px]">
+          Spotify
+        </p>
+      </div>
+    </div>
+  );
+
+  {/*const { data } = useSWR<NowPlayingSong>('/api/now-playing', fetcher);
 
   return (
     <div className="flex items-center pt-4 pb-5 space-x-2">
@@ -87,5 +121,5 @@ export default function NowPlaying() {
         </p>
       </div>
     </div>
-  );
+  );*/}
 }
