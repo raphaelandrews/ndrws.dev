@@ -6,6 +6,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { siteConfig } from "@/config/site";
 import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/toaster"
 import Header from '@/components/header';
 
 const font = Inter({
@@ -81,6 +82,7 @@ export default function RootLayout({
             <Header />
             {children}
           </main>
+          <Toaster />
           <Analytics />
         </ThemeProvider>
       </body>
