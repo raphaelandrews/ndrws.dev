@@ -9,16 +9,18 @@ In this post I'll show you how to make a table in a easy way with Nextjs and [sh
 
 So, I'll use the [Data Table](https://ui.shadcn.com/docs/components/data-table) component.
 
+## Setup
+
 To start the project use the following line. You can also find this and a lot of things I will use in this tutorial acessing the shadcn/ui docs.
 
 ```
-npx create-next-app@latest my-app --typescript --tailwind --eslint
+pnpm create next-app@latest table-with-nextjs --typescript --tailwind --eslint
 ```
 
 You can choose the default answers to the questions that will appear and run the init command:
 
 ```
-npx shadcn-ui@latest init
+pnpm dlx shadcn-ui@latest init
 ```
 
 Again you can choose the default:
@@ -35,14 +37,16 @@ Configure the import alias for utils: › @/lib/utils
 Are you using React Server Components? › no / yes
 ```
 
-The project setup is done! Let's go to the Data Table component:
+The project setup is done!
+
+## Data Table component
 
 ```
-npx shadcn-ui@latest add table
+pnpm dlx shadcn-ui@latest add table
 ```
 
 ```
-npm install @tanstack/react-table
+pnpm add @tanstack/react-table
 ```
 
 Create this folder and files on components folder:
@@ -57,10 +61,10 @@ components
 Before the columns setup, let's install the Avatar component:
 
 ```
-npx shadcn-ui@latest add avatar
+pnpm dlx shadcn-ui@latest add avatar
 ```
 
-Two more steps, the data for populate the table and the Interfaces. Create the data folder with the pokemons.ts and copy and paste the data from [this repository](https://github.com/raphaelandrews/table-crud-nextjs/blob/main/data/pokemons.ts).
+Next step, the data for populate the table. Create the data folder with the pokemons.ts and copy and paste the data from [this repository](https://github.com/raphaelandrews/tables-with-nextjs/blob/main/data/pokemon.ts).
 
 ```
 data
@@ -94,7 +98,7 @@ export interface PokemonBaseStats {
 export interface PokemonProfile {
     height: string;
     weight: string;
-    egg: string[];
+    egg?: string[];
     ability: string[] | string[][];
     gender: string;
 }
@@ -113,12 +117,198 @@ export interface Pokemon {
     id: number;
     name: PokemonName;
     type: string[];
-    base: PokemonBaseStats;
+    base?: PokemonBaseStats;
     species: string;
     description: string;
     evolution: PokemonEvolution;
     profile: PokemonProfile;
     image: PokemonImage;
+}
+```
+
+Now let's install the DropdownMenu component and activate the sorting - components/poke-table/data-table-column-header.tsx 
+
+```
+pnpm dlx shadcn-ui@latest add dropdown-menu
+
+```
+
+```
+import {
+    ArrowDownIcon,
+    ArrowUpIcon,
+    ArrowUpDownIcon,
+    EyeOffIcon,
+} from "lucide-react"
+import { Column } from "@tanstack/react-table"
+
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+interface DataTableColumnHeaderProps<TData, TValue>
+    extends React.HTMLAttributes<HTMLDivElement> {
+    column: Column<TData, TValue>
+    title: string
+}
+
+export function DataTableColumnHeader<TData, TValue>({
+    column,
+    title,
+    className,
+}: DataTableColumnHeaderProps<TData, TValue>) {
+    if (!column.getCanSort()) {
+        return <div className={cn(className)}>{title}</div>
+    }
+
+    return (
+        <div className={cn("flex items-center space-x-2", className)}>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        className="-ml-3 h-8 data-[state=open]:bg-accent"
+                    >
+                        <span>{title}</span>
+                        {column.getIsSorted() === "desc" ? (
+                            <ArrowDownIcon className="ml-2 h-4 w-4" />
+                        ) : column.getIsSorted() === "asc" ? (
+                            <ArrowUpIcon className="ml-2 h-4 w-4" />
+                        ) : (
+                            <ArrowUpDownIcon className="ml-2 h-4 w-4" />
+                        )}
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start">
+                    <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
+                        <ArrowUpIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                        Asc
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
+                        <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                        Desc
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
+                        <EyeOffIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                        Hide
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
+    )
+}
+```
+
+Install the Toast component and add the Row Actions - components/poke-table/data-table-row-actions.tsx 
+
+```
+pnpm dlx shadcn-ui@latest add toast
+```
+
+On the layout.tsx
+
+```bash
+import './globals.css';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+
+import { Toaster } from "@/components/ui/toaster";
+
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata: Metadata = {
+  title: 'Pokétable',
+  description: "Catch 'em all",
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en">
+      <body className={inter.className}>
+        {children}
+        <Toaster />
+      </body>
+    </html>
+  )
+}
+```
+
+```
+"use client"
+
+import { FileEditIcon, MoreHorizontalIcon, Trash2Icon } from "lucide-react";
+
+import { useToast } from "@/components/ui/use-toast"
+import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+
+export function DataTableRowActions({ row }: { row: number }) {
+    const { toast } = useToast();
+
+    const updatePokemon = (row: number) => {
+        // Add your api call
+        toast({
+            title: "Sucess",
+            description: `Updated Pokémon: id ${row}`,
+        })
+    }
+
+    const deletePokemon = (row: number) => {
+        // Add your api call
+        toast({
+            title: "Sucess",
+            description: `Deleted Pokémon: id ${row}`,
+        })
+    }
+
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button
+                    variant="ghost"
+                    className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
+                >
+                    <MoreHorizontalIcon className="h-4 w-4" />
+                    <span className="sr-only">Open menu</span>
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-[160px]">
+                <DropdownMenuItem
+                    onClick={() => updatePokemon(row)}
+                >
+                       <FileEditIcon width={14} height={14} />
+                    Edit
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                    className="text-red-500 focus:text-red-500"
+                    onClick={() => deletePokemon(row)}
+                >
+                    <Trash2Icon width={14} height={14} />
+                    Delete
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    )
 }
 ```
 
@@ -188,88 +378,212 @@ export const columns: ColumnDef<Pokemon>[] = [
 ]
 ```
 
+Install the Select and Button components.
+
+```
+pnpm dlx shadcn-ui@latest add button
+```
+
+```
+pnpm dlx shadcn-ui@latest add select
+```
+
+Add the pagination with the data-table-pagination.tsx
+
+```
+components
+└── poke-table
+    └── data-table-pagination.tsx
+```
+
+```
+import {
+    ChevronLeftIcon,
+    ChevronRightIcon,
+    ChevronsLeftIcon,
+    ChevronsRightIcon,
+  } from "lucide-react";
+  import { Table } from "@tanstack/react-table"
+
+  import { Button } from "@/components/ui/button";
+  import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from "@/components/ui/select";
+
+  interface DataTablePaginationProps<TData> {
+    table: Table<TData>
+  }
+
+  export function DataTablePagination<TData>({
+    table,
+  }: DataTablePaginationProps<TData>) {
+    return (
+      <div className="flex items-center justify-between px-2">
+        <div className="flex-1 text-sm text-muted-foreground">
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+        <div className="flex items-center space-x-6 lg:space-x-8">
+          <div className="flex items-center space-x-2">
+            <p className="text-sm font-medium">Rows per page</p>
+            <Select
+              value={`${table.getState().pagination.pageSize}`}
+              onValueChange={(value) => {
+                table.setPageSize(Number(value))
+              }}
+            >
+              <SelectTrigger className="h-8 w-[70px]">
+                <SelectValue placeholder={table.getState().pagination.pageSize} />
+              </SelectTrigger>
+              <SelectContent side="top">
+                {[10, 20, 30, 40, 50].map((pageSize) => (
+                  <SelectItem key={pageSize} value={`${pageSize}`}>
+                    {pageSize}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+            Page {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()}
+          </div>
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="outline"
+              className="hidden h-8 w-8 p-0 lg:flex"
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <span className="sr-only">Go to first page</span>
+              <ChevronsLeftIcon className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="h-8 w-8 p-0"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <span className="sr-only">Go to previous page</span>
+              <ChevronLeftIcon className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="h-8 w-8 p-0"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              <span className="sr-only">Go to next page</span>
+              <ChevronRightIcon className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="hidden h-8 w-8 p-0 lg:flex"
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+            >
+              <span className="sr-only">Go to last page</span>
+              <ChevronsRightIcon className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+```
+
 Create the DataTable component - components/poke-table/data-table.tsx
 
 ```
 "use client"
 
 import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
+    ColumnDef,
+    flexRender,
+    getCoreRowModel,
+    getPaginationRowModel,
+    useReactTable,
 } from "@tanstack/react-table"
 
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from "@/components/ui/table"
+import { DataTablePagination } from "@/components/poke-table/data-table-pagination"
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+    columns: ColumnDef<TData, TValue>[]
+    data: TData[]
 }
 
 export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
-  const table = useReactTable({
-    data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-  })
+    data,
+}: DataTableProps<TData, TValue>) {
+    const table = useReactTable({
+        data,
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+    })
 
-  return (
-    <div className="mt-8 rounded-md border">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
+    return (
+        <div className="space-y-4">
+            <div className="mt-8 rounded-md border">
+                <Table>
+                    <TableHeader>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => {
+                                    return (
+                                        <TableHead key={header.id}>
+                                            {header.isPlaceholder
+                                                ? null
+                                                : flexRender(
+                                                    header.column.columnDef.header,
+                                                    header.getContext()
+                                                )}
+                                        </TableHead>
+                                    )
+                                })}
+                            </TableRow>
+                        ))}
+                    </TableHeader>
+                    <TableBody>
+                        {table.getRowModel().rows?.length ? (
+                            table.getRowModel().rows.map((row) => (
+                                <TableRow
+                                    key={row.id}
+                                    data-state={row.getIsSelected() && "selected"}
+                                >
+                                    {row.getVisibleCells().map((cell) => (
+                                        <TableCell key={cell.id}>
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={columns.length} className="h-24 text-center">
+                                    No results.
+                                </TableCell>
+                            </TableRow>
                         )}
-                  </TableHead>
-                )
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </div>
-  )
+                    </TableBody>
+                </Table>
+            </div>
+            <DataTablePagination table={table} />
+        </div>
+    )
 }
 ```
 

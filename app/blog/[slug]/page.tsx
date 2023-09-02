@@ -1,14 +1,16 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { JetBrains_Mono } from 'next/font/google';
 import Balancer from 'react-wrap-balancer';
 
 import { allBlogs } from 'contentlayer/generated';
 
 import ViewCounter from '@/app/blog/view-counter';
-import Title from '@/components/ui/title';
 import { getTweets } from '@/lib/twitter';
 import { getViewsCount } from '@/lib/metrics';
 import { Mdx } from '@/components/mdx';
+
+const jetBrainsMono = JetBrains_Mono({ subsets: ['latin'] })
 
 export async function generateMetadata({
 	params,
@@ -20,7 +22,6 @@ export async function generateMetadata({
 
 	const {
 		title,
-		previewTitle,
 		publishedAt: publishedTime,
 		summary: description,
 		image,
@@ -104,8 +105,12 @@ export default async function Blog({ params }) {
 				<h1 className="font-bold text-2xl tracking-tighter max-w-[650px]">
 					<Balancer>{post.title}</Balancer>
 				</h1>
-				<div className="flex justify-between items-center mt-2 mb-8 text-sm">
-					<p className="text-sm text-muted-foreground">
+				<div
+					style={jetBrainsMono.style}
+					className="flex justify-between items-center text-sm mt-2 
+					mb-8"
+				>
+					<p className="text-xs text-muted-foreground">
 						{formatDate(post.publishedAt)}
 					</p>
 					<ViewCounter allViews={allViews} slug={post.slug} trackView />

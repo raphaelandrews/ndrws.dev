@@ -4,8 +4,8 @@ import { getTopArtists } from '@/lib/spotify';
 export async function GET(req: NextRequest) {
   const response = await getTopArtists();
   const { items } = await response.json();
-console.log(response.body)
-  const artists = items.slice(0, 5).map((artist) => ({
+
+  const artists = items.slice(0, 3).map((artist) => ({
     name: artist.name,
     artistUrl: artist.external_urls.spotify,
   }));
