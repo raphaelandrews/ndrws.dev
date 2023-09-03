@@ -2,8 +2,8 @@ import * as React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useMDXComponent } from 'next-contentlayer/hooks';
-
 import Tweet from 'components/tweet';
+import { CopyButton } from './copy-button';
 
 const CustomLink = (props) => {
   const href = props.href;
@@ -90,12 +90,43 @@ function ConsCard({ title, cons }) {
   );
 }
 
+const extractPlainText = (children) => {
+  if (typeof children === 'string') {
+    return children;
+  }
+
+  if (Array.isArray(children)) {
+    return children.map(extractPlainText).join('');
+  }
+
+  if (typeof children === 'object' && children.hasOwnProperty('props')) {
+    return extractPlainText(children.props.children);
+  }
+
+  return '';
+};
+
+const Pre = ({ children }) => {
+  const plainTextContent = extractPlainText(children);
+
+  return (
+    <div className='relative'>
+      <pre>
+        {children}
+      </pre>
+
+      <CopyButton value={plainTextContent} className='absolute top-4 right-4' />
+    </div>
+  );
+};
+
 const components = {
   Image: RoundedImage,
   a: CustomLink,
   Callout,
   ProsCard,
   ConsCard,
+
 };
 
 interface MdxProps {
@@ -115,4 +146,5 @@ export function Mdx({ code, tweets }: MdxProps) {
       <Component components={{ ...components, StaticTweet }} />
     </article>
   );
+
 }
