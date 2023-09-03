@@ -88,18 +88,14 @@
   }
 
   .prose pre {
-    @apply text-secondary dark:text-secondary-foreground bg-primary dark:bg-primary-foreground;
+    @apply text-secondary dark:text-secondary-foreground bg-primary dark:bg-primary-foreground py-4 border border-border;
   }
 
   [data-rehype-pretty-code-title] {
-    @apply px-4 py-3 font-mono text-xs font-medium border rounded-t-lg border-border bg-card;
+    @apply px-4 py-3 font-mono text-xs font-medium border rounded-t-lg border-b-0 border-border bg-card;
   }
 
-  [data-rehype-pretty-code-title] + pre {
-    @apply mt-0;
-  }
-
-  .prose :where(pre):not(:where([class~="not-prose"] *)) {
-    @apply !rounded-b-md !rounded-t-none;
+  [data-rehype-pretty-code-title] + div pre {
+    @apply mt-0 !rounded-b-md !rounded-t-none;
   }
 }

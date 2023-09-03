@@ -73,12 +73,7 @@ data
 
 After, create the types folder with index.ts file.
 
-```
-types
-└── index.ts
-```
-
-```
+```ts title="types/index.ts"
 export interface PokemonName {
     english: string;
     japanese: string;
@@ -126,14 +121,13 @@ export interface Pokemon {
 }
 ```
 
-Now let's install the DropdownMenu component and activate the sorting - components/poke-table/data-table-column-header.tsx 
+Now let's install the DropdownMenu component and activate the sorting 
 
 ```
 pnpm dlx shadcn-ui@latest add dropdown-menu
-
 ```
 
-```
+```tsx title="components/poke-table/data-table-column-header.tsx"
 import {
     ArrowDownIcon,
     ArrowUpIcon,
@@ -207,15 +201,13 @@ export function DataTableColumnHeader<TData, TValue>({
 }
 ```
 
-Install the Toast component and add the Row Actions - components/poke-table/data-table-row-actions.tsx 
+Install the Toast component and add the Row Actions
 
 ```
 pnpm dlx shadcn-ui@latest add toast
 ```
 
-On the layout.tsx
-
-```bash
+```tsx title="layout.tsx"
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -245,7 +237,7 @@ export default function RootLayout({
 }
 ```
 
-```
+```tsx title="components/poke-table/data-table-row-actions.tsx "
 "use client"
 
 import { FileEditIcon, MoreHorizontalIcon, Trash2Icon } from "lucide-react";
@@ -312,9 +304,9 @@ export function DataTableRowActions({ row }: { row: number }) {
 }
 ```
 
-Now we can define the columns - components/poke-table/columns.tsx 
+Now we can define the columns
 
-```
+```tsx title="components/poke-table/columns.tsx" 
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table";
@@ -388,15 +380,9 @@ pnpm dlx shadcn-ui@latest add button
 pnpm dlx shadcn-ui@latest add select
 ```
 
-Add the pagination with the data-table-pagination.tsx
+Add the pagination
 
-```
-components
-└── poke-table
-    └── data-table-pagination.tsx
-```
-
-```
+```tsx title="components/poke-table/data-table-pagination.tsx"
 import {
     ChevronLeftIcon,
     ChevronRightIcon,
@@ -496,9 +482,9 @@ import {
   }
 ```
 
-Create the DataTable component - components/poke-table/data-table.tsx
+Create the DataTable component 
 
-```
+```tsx title="components/poke-table/data-table.tsx"
 "use client"
 
 import {
@@ -587,9 +573,9 @@ export function DataTable<TData, TValue>({
 }
 ```
 
-Let's clean the page.tsx inside the app folder and import the DataTable component - app/page.tsx
+Let's clean the page.tsx inside the app folder and import the DataTable component
 
-```
+```tsx showLineNumbers title="app/page.tsx"
 import { columns } from "@/components/poke-table/columns";
 import { DataTable } from "@/components/poke-table/data-table";
 import { pokemons } from "@/data/pokemons";
