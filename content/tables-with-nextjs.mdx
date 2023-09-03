@@ -382,7 +382,7 @@ pnpm dlx shadcn-ui@latest add select
 
 Add the pagination
 
-```tsx title="components/poke-table/data-table-pagination.tsx"
+```tsx showLineNumbers title="components/poke-table/data-table-pagination.tsx"
 import {
     ChevronLeftIcon,
     ChevronRightIcon,
@@ -484,7 +484,7 @@ import {
 
 Create the DataTable component 
 
-```tsx title="components/poke-table/data-table.tsx"
+```tsx showLineNumbers title="components/poke-table/data-table.tsx"
 "use client"
 
 import {
@@ -575,7 +575,7 @@ export function DataTable<TData, TValue>({
 
 Let's clean the page.tsx inside the app folder and import the DataTable component
 
-```tsx showLineNumbers title="app/page.tsx"
+```tsx showLineNumbers title="app/page.tsx" {3}
 import { columns } from "@/components/poke-table/columns";
 import { DataTable } from "@/components/poke-table/data-table";
 import { pokemons } from "@/data/pokemons";

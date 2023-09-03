@@ -4,6 +4,12 @@ import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
+import { HEADING_LINK_ANCHOR } from "./lib/constants"
+import {
+  rehypePrettyCodeClasses,
+  rehypePrettyCodeOptions,
+} from "./lib/rehyePrettyCode"
+
 /** @type {import('contentlayer/source-files').ComputedFields} */
 const computedFields = {
   slug: {
@@ -72,33 +78,21 @@ export default makeSource({
   contentDirPath: 'content',
   documentTypes: [Blog],
   mdx: {
-    remarkPlugins: [remarkGfm],
+    esbuildOptions(options) {
+      options.target = "esnext"
+      return options
+    },
+    remarkPlugins: [[remarkGfm]],
     rehypePlugins: [
-      rehypeSlug,
-      [
-        rehypePrettyCode,
-        {
-          theme: 'one-dark-pro',
-          onVisitLine(node) {
-            // Prevent lines from collapsing in `display: grid` mode, and allow empty
-            // lines to be copy/pasted
-            if (node.children.length === 0) {
-              node.children = [{ type: 'text', value: ' ' }];
-            }
-          },
-          onVisitHighlightedLine(node) {
-            node.properties.className.push('line--highlighted');
-          },
-          onVisitHighlightedWord(node) {
-            node.properties.className = ['word--highlighted'];
-          },
-        },
-      ],
+      [rehypeSlug],
+      [rehypePrettyCode, rehypePrettyCodeOptions],
+      [rehypePrettyCodeClasses],
       [
         rehypeAutolinkHeadings,
         {
+          behavior: "wrap",
           properties: {
-            className: ['anchor'],
+            className: [HEADING_LINK_ANCHOR],
           },
         },
       ],
