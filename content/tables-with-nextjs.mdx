@@ -13,19 +13,19 @@ So, I'll use the [Data Table](https://ui.shadcn.com/docs/components/data-table) 
 
 To start the project use the following line. You can also find this and a lot of things I will use in this tutorial acessing the shadcn/ui docs.
 
-```
+```txt
 pnpm create next-app@latest table-with-nextjs --typescript --tailwind --eslint
 ```
 
 You can choose the default answers to the questions that will appear and run the init command:
 
-```
+```txt
 pnpm dlx shadcn-ui@latest init
 ```
 
 Again you can choose the default:
 
-```
+```txt
 Would you like to use TypeScript (recommended)? no / yes
 Which style would you like to use? › Default
 Which color would you like to use as base color? › Slate
@@ -41,17 +41,17 @@ The project setup is done!
 
 ## Data Table component
 
-```
+```txt
 pnpm dlx shadcn-ui@latest add table
 ```
 
-```
+```txt
 pnpm add @tanstack/react-table
 ```
 
 Create this folder and files on components folder:
 
-```
+```txt
 components
 └── poke-table
     ├── columns.tsx
@@ -60,20 +60,20 @@ components
 
 Before the columns setup, let's install the Avatar component:
 
-```
+```txt
 pnpm dlx shadcn-ui@latest add avatar
 ```
 
 Next step, the data for populate the table. Create the data folder with the pokemons.ts and copy and paste the data from [this repository](https://github.com/raphaelandrews/tables-with-nextjs/blob/main/data/pokemon.ts).
 
-```
+```txt
 data
 └── pokemons.ts
 ```
 
 After, create the types folder with index.ts file.
 
-```ts title="types/index.ts"
+```ts showLineNumbers title="types/index.ts"
 export interface PokemonName {
     english: string;
     japanese: string;
@@ -123,11 +123,11 @@ export interface Pokemon {
 
 Now let's install the DropdownMenu component and activate the sorting 
 
-```
+```txt
 pnpm dlx shadcn-ui@latest add dropdown-menu
 ```
 
-```tsx title="components/poke-table/data-table-column-header.tsx"
+```tsx showLineNumbers title="components/poke-table/data-table-column-header.tsx"
 import {
     ArrowDownIcon,
     ArrowUpIcon,
@@ -203,11 +203,11 @@ export function DataTableColumnHeader<TData, TValue>({
 
 Install the Toast component and add the Row Actions
 
-```
+```txt
 pnpm dlx shadcn-ui@latest add toast
 ```
 
-```tsx title="layout.tsx"
+```tsx showLineNumbers title="layout.tsx" {5,23}
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -237,7 +237,7 @@ export default function RootLayout({
 }
 ```
 
-```tsx title="components/poke-table/data-table-row-actions.tsx "
+```tsx showLineNumbers title="components/poke-table/data-table-row-actions.tsx "
 "use client"
 
 import { FileEditIcon, MoreHorizontalIcon, Trash2Icon } from "lucide-react";
@@ -306,7 +306,7 @@ export function DataTableRowActions({ row }: { row: number }) {
 
 Now we can define the columns
 
-```tsx title="components/poke-table/columns.tsx" 
+```tsx showLineNumbers title="components/poke-table/columns.tsx" 
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table";
@@ -372,11 +372,11 @@ export const columns: ColumnDef<Pokemon>[] = [
 
 Install the Select and Button components.
 
-```
+```txt
 pnpm dlx shadcn-ui@latest add button
 ```
 
-```
+```txt
 pnpm dlx shadcn-ui@latest add select
 ```
 
@@ -575,7 +575,7 @@ export function DataTable<TData, TValue>({
 
 Let's clean the page.tsx inside the app folder and import the DataTable component
 
-```tsx showLineNumbers title="app/page.tsx" {3}
+```tsx showLineNumbers title="app/page.tsx"
 import { columns } from "@/components/poke-table/columns";
 import { DataTable } from "@/components/poke-table/data-table";
 import { pokemons } from "@/data/pokemons";

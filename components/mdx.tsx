@@ -126,7 +126,7 @@ const components = {
   Callout,
   ProsCard,
   ConsCard,
-
+  pre: Pre,
 };
 
 interface MdxProps {
