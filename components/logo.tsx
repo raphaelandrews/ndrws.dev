@@ -7,7 +7,7 @@ export function Logo() {
     const pathname = usePathname();
 
     return (
-        <span className="md:text-lg whitespace-nowrap font-bold">
+        <h1 className="md:text-lg whitespace-nowrap font-bold">
             {pathname === "/" ? (
                 <span className="cursor-default pr-2">Andrews</span>
             ) : (
@@ -25,6 +25,6 @@ export function Logo() {
                     Andrews
                 </Link>
             )}
-        </span>
+        </h1>
     );
 }
