@@ -52,7 +52,7 @@ export default async function Home() {
         </div>
       </section>
       <section className='my-10'>
-        <Subtitle label="Projects" />
+        <Subtitle label="Featured" />
         <div className='space-y-1'>
           {projectsLinks.map((project) => (
             <ProjectLink
