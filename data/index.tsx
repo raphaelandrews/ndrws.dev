@@ -5,14 +5,6 @@ export const projectsLinks = [
         link: "https://fsx.org.br",
         label: "federacao-sergipana-de-xadrez.html",
     },
-    {
-        link: "https://timeline-portfolio.vercel.app",
-        label: "timeline-portfolio.html",
-    },
-    {
-        link: "https://fsx.org.br/nordestao",
-        label: "nordestao-landing-page.html",
-    },
 ]
 
 export const socialLinks = [
