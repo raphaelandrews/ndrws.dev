@@ -12,7 +12,6 @@ import PostLink from '@/components/ui/post-link';
 import TopTracks from '@/components/top-tracks';
 import TopArtists from '@/components/top-artists';
 import NowPlaying from '@/components/now-playing';
-import CopyContent from '@/lib/copy-content';
 
 export default async function Home() {
   const allViews = await getViewsCount();
@@ -27,13 +26,8 @@ export default async function Home() {
             Frontend based in Brazil. You can contact me on any {" "}
             <a href="#social" className='text-gray-400'>social media</a> or by
             {" "}
-            <span className='hover:cursor-pointer'>
-              <CopyContent
-                title='Email'
-                label='email'
-                content='ndrws.dev@gmail.com'
-              />
-            </span>.
+            <a href="mailto:ndrws.dev@gmail.com" className='text-gray-400'>
+            email</a>.
           </Balancer>
         </p>
       </section>
