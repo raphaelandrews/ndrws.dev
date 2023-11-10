@@ -25,9 +25,10 @@ export default async function Home() {
             👋 Hey, I'm Andrews, a Fullstack Web Developer specialized in
             Frontend based in Brazil. You can contact me on any {" "}
             <a href="#social" className='text-gray-400'>social media</a> or by
-            {" "}
+            email: {" "}
             <a href="mailto:raphael@ndrws.dev" className='text-gray-400'>
-            email</a>.
+              raphael@ndrws.dev
+            </a>.
           </Balancer>
         </p>
       </section>
