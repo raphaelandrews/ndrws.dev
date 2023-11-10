@@ -26,7 +26,7 @@ export default async function Home() {
             Frontend based in Brazil. You can contact me on any {" "}
             <a href="#social" className='text-gray-400'>social media</a> or by
             {" "}
-            <a href="mailto:ndrws.dev@gmail.com" className='text-gray-400'>
+            <a href="mailto:raphael@ndrws.dev" className='text-gray-400'>
             email</a>.
           </Balancer>
         </p>

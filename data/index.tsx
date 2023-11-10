@@ -14,7 +14,7 @@ export const socialLinks = [
         icon: <Twitter width={14} height={14} className="min-w-[14px]" />,
     },
     {
-        link: "mailto:ndrws.dev@gmail.com",
+        link: "mailto:raphael@ndrws.dev",
         label: "Gmail",
         icon: <Mail width={14} height={14} className="min-w-[14px]" />,
     },
