@@ -21,7 +21,7 @@ const CopyContent = ({ title, label, content }: CopyContentProps) => {
     }
 
     function handleClipboard() {
-        copyToClipboard('raphael@ndrws.dev');
+        copyToClipboard('hey@ndrws.dev');
         toast({
             title: `${title} copied to clipboard`,
             description: content,
