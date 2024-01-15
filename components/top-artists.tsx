@@ -6,13 +6,10 @@ import { Music4 } from 'lucide-react';
 import fetcher from '@/lib/fetcher';
 import { TopArtists } from '@/lib/types';
 import Artist from '@/components/artist';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Artists() {
   const { data } = useSWR<TopArtists>('/api/top-artists', fetcher);
-
-  if (!data) {
-    return null;
-  }
 
   return (
     <>
@@ -21,9 +18,19 @@ export default function Artists() {
         <span>Top Artists</span>
       </div>
       <div className='space-y-1'>
-        {data.artists.map((artist, index) => (
-          <Artist ranking={index + 1} key={artist.artistUrl} {...artist} />
-        ))}
+        {!data ? (
+          <>
+            <Skeleton className="w-1/2 h-[2rem] rounded-md" />
+            <Skeleton className="w-1/2 h-[2rem] rounded-md" />
+            <Skeleton className="w-1/2 h-[2rem] rounded-md" />
+          </>
+        ) : (
+          <>
+            {data.artists.map((artist, index) => (
+              <Artist ranking={index + 1} key={artist.artistUrl} {...artist} />
+            ))}
+          </>
+        )}
       </div>
     </>
   );
