@@ -8,3 +8,8 @@ export type SiteConfig = {
         github: string
     }
 }
+
+export interface Views {
+    slug: string;
+    count: number;
+}
