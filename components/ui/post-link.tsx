@@ -1,14 +1,12 @@
 import Link from "next/link";
 import { Scroll } from "lucide-react";
 import ViewCounter from "@/app/blog/view-counter";
+import { Views } from "@/types/global";
 
 type PostLinkProps = {
     slug: string;
     previewTitle: string;
-    allViews: {
-        slug: string;
-        count: number;
-    }[]
+    allViews: Views[];
 }
 
 const PostLink = ({ slug, previewTitle, allViews }: PostLinkProps) => {

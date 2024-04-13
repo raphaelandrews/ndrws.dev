@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { cookies } from "next/headers";
 import { notFound } from 'next/navigation';
 import { JetBrains_Mono } from 'next/font/google';
 import Balancer from 'react-wrap-balancer';
@@ -7,8 +8,10 @@ import { allBlogs } from 'contentlayer/generated';
 
 import ViewCounter from '@/app/blog/view-counter';
 import { getTweets } from '@/lib/twitter';
-import { getViewsCount } from '@/lib/metrics';
+import { createClient } from "@/utils/supabase/server";
 import { Mdx } from '@/components/mdx';
+import { Views } from '@/types/global';
+import { increment } from '@/app/actions';
 
 const jetBrainsMono = JetBrains_Mono({ subsets: ['latin'] })
 
@@ -85,14 +88,28 @@ function formatDate(date: string) {
 }
 
 export default async function Blog({ params }) {
+	const cookieStore = cookies();
+	const supabase = createClient(cookieStore);
 	const post = allBlogs.find((post) => post.slug === params.slug);
 
 	if (!post) {
 		notFound();
 	}
 
-	const [allViews, tweets] = await Promise.all([
-		getViewsCount(),
+	const { data: allViews, error } = await supabase
+		.from("views")
+		.select(`*`)
+		.returns<Views[]>();
+
+	if (!allViews || error) {
+		notFound;
+	}
+
+	if (allViews === null) {
+		return
+	}
+
+	const [tweets] = await Promise.all([
 		getTweets(post.tweetIds),
 	]);
 

@@ -1,31 +1,42 @@
 'use server';
 
-import { auth } from 'lib/auth';
-import { type Session } from 'next-auth';
-import { queryBuilder } from 'lib/planetscale';
-import { revalidatePath } from 'next/cache';
+import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
+
+import { createClient } from "@/utils/supabase/server";
 
 export async function increment(slug: string) {
-  const data = await queryBuilder
-    .selectFrom('views')
-    .where('slug', '=', slug)
-    .select(['count'])
-    .execute();
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
 
-  const views = !data.length ? 0 : Number(data[0].count);
+  try {
+    const { data: allViews, error } = await supabase
+      .from("views")
+      .select(`*`)
+      .eq('slug', slug)
+      .single();
 
-  return queryBuilder
-    .insertInto('views')
-    .values({ slug, count: 1 })
-    .onDuplicateKeyUpdate({ count: views + 1 })
-    .execute();
-}
+    if (error) {
+      return null;
+    }
 
-async function getSession(): Promise<Session> {
-  const session = await auth();
-  if (!session || !session.user) {
-    throw new Error('Unauthorized');
+    const existingViews = allViews.count;
+    let count = 1;
+
+    count = existingViews + 1;
+
+    const { data: dataViews, error: dataError } = await supabase
+      .from("views")
+      .update({ count: count })
+      .match({ slug: allViews.slug })
+      .select()
+      .single();
+
+    if (dataError) {
+      return null;
+    }
+
+  } catch (error) {
+    return null;
   }
-
-  return session;
 }

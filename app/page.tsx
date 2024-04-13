@@ -1,8 +1,10 @@
+import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 import { Balancer } from 'react-wrap-balancer';
 
 import { allBlogs } from 'contentlayer/generated';
 
-import { getViewsCount } from '@/lib/metrics';
+import { createClient } from "@/utils/supabase/server";
 import { projectsLinks, socialLinks } from "@/data";
 
 import Subtitle from "@/components/ui/subtitle";
@@ -12,9 +14,24 @@ import PostLink from '@/components/ui/post-link';
 import TopTracks from '@/components/top-tracks';
 import TopArtists from '@/components/top-artists';
 import NowPlaying from '@/components/now-playing';
+import { Views } from "@/types/global";
 
 export default async function Home() {
-  const allViews = await getViewsCount();
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+
+  const { data: allViews, error } = await supabase
+    .from("views")
+    .select(`*`)
+    .returns<Views[]>();
+
+  if (!allViews || error || !allViews.length) {
+    notFound;
+  }
+
+  if (allViews === null) {
+    return
+  }
 
   return (
     <>
@@ -27,7 +44,7 @@ export default async function Home() {
             <a href="#social" className='text-gray-400'>social media</a> or by
             email: {" "}
             <a href="mailto:hey@ndrws.dev" className='text-gray-400'>
-            hey@ndrws.dev
+              hey@ndrws.dev
             </a>.
           </Balancer>
         </p>

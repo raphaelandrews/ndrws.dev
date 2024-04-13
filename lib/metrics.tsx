@@ -18,7 +18,7 @@ const youtube = google.youtube({
 });
 
 export const getBlogViews = cache(async () => {
-  if (!process.env.DATABASE_URL) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
     return 0;
   }
 
