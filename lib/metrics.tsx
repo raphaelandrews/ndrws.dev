@@ -1,7 +1,6 @@
 import 'server-only';
 
 import { google } from 'googleapis';
-import { queryBuilder } from 'lib/planetscale';
 import { cache } from 'react';
 
 const googleAuth = new google.auth.GoogleAuth({
@@ -15,23 +14,6 @@ const googleAuth = new google.auth.GoogleAuth({
 const youtube = google.youtube({
   version: 'v3',
   auth: googleAuth,
-});
-
-export const getBlogViews = cache(async () => {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-    return 0;
-  }
-
-  const data = await queryBuilder
-    .selectFrom('views')
-    .select(['count'])
-    .execute();
-
-  return data.reduce((acc, curr) => acc + Number(curr.count), 0);
-});
-
-export const getViewsCount = cache(async () => {
-  return queryBuilder.selectFrom('views').select(['slug', 'count']).execute();
 });
 
 export const getNdrwsYouTubeSubs = cache(async () => {

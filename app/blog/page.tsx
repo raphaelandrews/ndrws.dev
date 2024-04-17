@@ -1,23 +1,39 @@
-import Link from 'next/link';
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 
 import { allBlogs } from 'contentlayer/generated';
 
 import ViewCounter from '@/app/blog/view-counter';
-import { getViewsCount } from '@/lib/metrics';
+import { createClient } from "@/utils/supabase/server";
+import { Views } from "@/types/global";
 
 export const metadata: Metadata = {
 	title: 'Blog',
-	description: 'Read my thoughts on software development, design, and more.',
 };
 
 export default async function BlogPage() {
-	const allViews = await getViewsCount();
+	const cookieStore = cookies();
+	const supabase = createClient(cookieStore);
+  
+	const { data: allViews, error } = await supabase
+	  .from("views")
+	  .select(`*`)
+	  .returns<Views[]>();
+  
+	if (!allViews || error || !allViews.length) {
+	  notFound;
+	}
+  
+	if (allViews === null) {
+	  return
+	}
 
 	return (
 		<div className="max-w-2xl m-auto">
 			<section>
-				<h1 className="font-bold text-2xl mb-8 tracking-tighter">read my blog</h1>
+				<h1 className="font-bold text-2xl mb-8 tracking-tighter">My blog posts</h1>
 				{allBlogs
 					.sort((a, b) => {
 						if (new Date(a.publishedAt) > new Date(b.publishedAt)) {

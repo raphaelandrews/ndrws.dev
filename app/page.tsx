@@ -4,17 +4,17 @@ import { Balancer } from 'react-wrap-balancer';
 
 import { allBlogs } from 'contentlayer/generated';
 
-import { createClient } from "@/utils/supabase/server";
 import { projectsLinks, socialLinks } from "@/data";
+import { createClient } from "@/utils/supabase/server";
+import { Views } from "@/types/global";
 
-import Subtitle from "@/components/ui/subtitle";
+import NowPlaying from '@/components/now-playing';
+import PostLink from '@/components/ui/post-link';
 import ProjectLink from "@/components/ui/project-link";
 import SocialLink from "@/components/ui/social-link";
-import PostLink from '@/components/ui/post-link';
-import TopTracks from '@/components/top-tracks';
+import Subtitle from "@/components/ui/subtitle";
 import TopArtists from '@/components/top-artists';
-import NowPlaying from '@/components/now-playing';
-import { Views } from "@/types/global";
+import TopTracks from '@/components/top-tracks';
 
 export default async function Home() {
   const cookieStore = cookies();

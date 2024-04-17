@@ -5,6 +5,18 @@ export const projectsLinks = [
         link: "https://fsx.org.br",
         label: "federacao-sergipana-de-xadrez.html",
     },
+    {
+        link: "https://github.com/raphaelandrews/peach-mango-admin",
+        label: "peach-mango-admin.html",
+    },
+    {
+        link: "https://github.com/raphaelandrews/peach-mango",
+        label: "peach-mango-ecommerce.html",
+    }, 
+       {
+        link: "https://github.com/raphaelandrews/ecommerce-books",
+        label: "books-ecommerce.html",
+    },
 ]
 
 export const socialLinks = [
