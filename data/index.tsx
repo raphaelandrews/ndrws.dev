@@ -12,8 +12,12 @@ export const projectsLinks = [
     {
         link: "https://github.com/raphaelandrews/peach-mango",
         label: "peach-mango-ecommerce.html",
-    }, 
-       {
+    },
+    {
+        link: "https://github.com/raphaelandrews/meu-jardim",
+        label: "meu-jardim.html",
+    },
+    {
         link: "https://github.com/raphaelandrews/ecommerce-books",
         label: "books-ecommerce.html",
     },
